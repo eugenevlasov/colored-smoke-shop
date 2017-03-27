@@ -16,7 +16,7 @@
 // require foundation.magellan.js
 // require foundation.offcanvas.js
 // require foundation.orbit.js
-// require foundation.responsiveMenu.js
+//= require foundation.responsiveMenu.js
 //= require foundation.responsiveToggle.js
 //= require foundation.reveal.js
 // require foundation.slider.js

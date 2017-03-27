@@ -1,0 +1,25 @@
+$footer-height: 200px;
+
+* {
+  margin: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.page-wrap {
+  min-height: 100%;
+  margin-bottom: -$footer-height;
+
+  &::after {
+    content: '';
+    display: block;
+    height: $footer-height;
+  }
+}
+
+footer {
+  height: $footer-height;
+}

@@ -1,0 +1,73 @@
+.cover
+  #mobile-cover.show-for-small-only
+  video.hide-for-small-only playsinline='' autoplay='' muted='' loop='' poster=asset_path('squares_bg.png')
+    source src=asset_path(rand(1..6).to_s + '.mp4') type='video/mp4'
+  .row.column.text-center
+      = image_tag 'smoke.svg', class: 'puk'
+      h1 Цветной дым
+      p.lead
+        |Оригинальное решение для незабываемой фотосессии, свадьбы или другого мероприятия.
+        br
+        |Только у нас — самый широкий выбор цветов!
+
+      #scroll-down = fa_icon 'arrow-down 3x'
+
+.cover-main
+  .row.small-up-1.large-up-3
+    - @base_goods_descriptions.each do |base_goods_description|
+      .column.text-center
+        .card
+          = link_to catalog_path(base_goods_description)
+            .card-section
+              h2.text-center = base_goods_description.name
+              p
+                'Время горения:
+                strong => base_goods_description.burning_time
+                |секунд
+                br
+                'Всего цветов:
+                strong = base_goods_description.total_colors
+                br
+                = base_goods_description.country
+
+              .stat
+                => base_goods_description.cost
+                |&#x20bd;
+            .card-section = image_tag "#{base_goods_description.id}.jpg", title: base_goods_description.name, alt: base_goods_description.name
+
+css:
+  #preloader>p{display:none;}#preloader_preload{display: block;position: fixed;z-index: 99999;top: 0;left: 0;width: 100%;height: 100%;min-width: 1000px;background: #DB0A5B url("#{asset_path('preloader.svg')}") center center no-repeat;background-size:41px;}
+
+#preloader: #preloader_preload
+
+javascript:
+  var preloader = document.getElementById('preloader_preload');
+
+  function fadeOutnojquery(el) {
+    el.style.opacity = 1;
+    var interpreloader = setInterval(function(){
+      el.style.opacity = el.style.opacity - 0.05;
+      if (el.style.opacity <= 0.05){
+        clearInterval(interpreloader);
+        preloader.style.display = "none";
+      }
+    }, 16);
+  }
+
+  window.onload = function () {
+    setTimeout( function() {
+      fadeOutnojquery(preloader);
+    }, 0);
+  };
+
+  $(document).ready( function () {
+    $cover_height = $( window ).height() - 24;
+
+    $('.cover').height ( $cover_height );
+
+    $('#scroll-down').click( function () {
+      $('html, body').animate({
+        scrollTop: $('.cover-main').offset().top
+      }, 2000);
+    } );
+  } );

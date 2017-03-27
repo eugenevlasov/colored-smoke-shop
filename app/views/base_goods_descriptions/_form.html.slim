@@ -1,0 +1,49 @@
+= form_for @base_goods_description, url: catalog_path(@base_goods_description), :html => { :multipart => true } do |f|
+  - if @base_goods_description.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@base_goods_description.errors.count, "error")} prohibited this base_goods_description from being saved:"
+      ul
+        - @base_goods_description.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :name, 'Название'
+    = f.text_field :name
+  .field
+    = f.label :description, 'Описание'
+    = f.text_area :description, rows: 4
+  .field
+    = f.label :cost, 'Цена'
+    = f.number_field :cost
+  .field
+    = f.label :country, 'Страна'
+    = f.text_field :country
+  .field
+    = f.label :youtube_link, 'Youtube-видео'
+    = f.text_field :youtube_link
+  .field
+    = f.label :in_hand, 'В руке'
+    = f.check_box :in_hand
+  .field
+    = f.label :base, 'Основание'
+    = f.text_field :base
+  .field
+    = f.label :burning_time, 'Время горения'
+    = f.number_field :burning_time
+  .field
+    = f.label :height, 'Высота'
+    = f.number_field :height
+  .field
+    = f.label :diameter, 'Диаметр'
+    = f.number_field :diameter
+  .field
+    - unless @images.empty?
+      ul.no-bullet
+        - @images.each do |img|
+          li
+            => image_tag img.image.url(:small)
+            = link_to ( fa_icon 'remove', text: 'Удалить картинку'), img,
+                      :data => { :remote => true },
+                      :method => :delete
+    = file_field_tag "images[]", type: :file, multiple: true
+  .actions = f.submit 'Сохранить', :class => 'button success expanded'

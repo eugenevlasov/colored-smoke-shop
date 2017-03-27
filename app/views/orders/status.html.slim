@@ -1,0 +1,22 @@
+.row.column.text-center
+  - if @order.present?
+    - case @order[:status]
+    - when 0
+      h1 Заказ оформлен!
+      p.lead Наш оператор свяжется с Вами в ближайшее время.
+      p
+        'Вы можете узнать текущий статус заказа обратившись к нам по телефону
+        => link_to '+7 (965) 177-42-01', 'tel:+79651774201'
+        'или электронной почте
+        = link_to Rails.application.config.site_email, "mailto:#{Rails.application.config.site_email}"
+        |.
+      p
+        |Не забудьте указать номер Вашего заказа:
+        .stat = params[:order_id]
+    - when 1
+      h1 Заказ в обработке
+    - when 2
+      h1 Заказ отправлен
+  - else
+    br
+    .callout.alert.lead Заказа не существует

@@ -1,0 +1,48 @@
+h1 Заказ # #{@order[:id]} на сайте ЦветнойДым.рф
+
+p Добрый день!
+
+p Ваш заказ принят, в ближайшее время с Вами свяжется наш менеджер.
+
+table
+  caption Подробности заказа
+  thead
+    tr
+      th Товар
+      th.text-right Количество, шт.
+      th.text-right Стоимость, &#x20bd;/шт.
+      th.text-right Итого
+  tbody
+    - @goods.each do |g|
+      tr
+        td
+          => g.base_goods_description[:name]
+          = g[:color]
+        td.text-right = @cart_hash[g.id.to_s]
+        td.text-right = g.base_goods_description[:cost]
+        td.text-right = @cart_hash[g.id.to_s] * g.base_goods_description[:cost]
+  tfoot
+    tr
+      td.text-right colspan='3' Сумма
+      td.text-right = @total
+    tr
+      td.text-right colspan='3' Стоимость доставки
+      td.text-right = @order.delivery_cost
+    tr
+      td.text-right colspan='3' Итого
+      td.text-right.stat = @total + @order.delivery_cost.to_i
+
+p
+  strong Спасибо, что выбрали наш интернет-магазин!
+
+small
+  p
+    a href='http://цветнойдым.рф' ЦветнойДым.рф
+  p
+    a href='tel:#{Rails.application.config.site_phone}' #{Rails.application.config.site_phone_formatted}
+  p
+    'Группа Вконтакте:
+    a href='https://vk.com/#{Rails.application.config.site_vk}' #{Rails.application.config.site_vk}
+  p
+    'Инстаграм:
+    a href='https://www.instagram.com/#{Rails.application.config.site_instagram}' #{Rails.application.config.site_instagram}

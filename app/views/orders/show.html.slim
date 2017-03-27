@@ -1,0 +1,60 @@
+.row.column
+  h1
+    | Заказ #
+    = @order[:id]
+  .row
+    .large-6.columns
+      p
+        label Клиент:
+        = @order[:person]
+      p
+        label E-mail:
+        = @order[:email]
+      p
+        label Телефон:
+        = @order[:phone]
+      p
+        label Способ доставки:
+        = @order.delivery_option
+
+    .large-6.columns
+      .button-group data-toggle='change-status'
+        - if @order[:status] < 2
+          button.button.hollow = @order.status
+          button.button.dropdown.arrow-only
+            span.show-for-sr Показать меню
+          ul.menu.vertical#change-status.dropdown-pane.bottom data-dropdown='' data-close-on-click='true'
+            li = link_to (fa_icon 'gears', text: 'В работе'), order_status_path(@order[:id], :status => 1), method: :put unless @order[:status] == 1
+            li = link_to (fa_icon 'check', text: 'Выполнен'), order_status_path(@order[:id], :status => 2), method: :put
+            li = link_to (fa_icon 'ban', text: 'Отказ'), order_status_path(@order[:id], :status => 3), method: :put
+        - else
+          button.button.hollow.disabled = @order.status
+
+  table
+    caption Заказ # #{@order[:id]}
+    thead
+      tr
+        th Товар
+        th.text-right Количество, шт.
+        th.text-right Стоимость, &#x20bd;/шт.
+        th.text-right Итого
+    tbody
+      - @goods.each do |g|
+        tr
+          td
+            = link_to catalog_path(g.base_goods_description), class: 'float-left'
+              => g.base_goods_description[:name]
+              => g[:color]
+          td.text-right = @cart_hash[g.id.to_s]
+          td.text-right = g.base_goods_description[:cost]
+          td.text-right = @cart_hash[g.id.to_s] * g.base_goods_description[:cost]
+    tfoot
+      tr
+        td.text-right colspan='3' Сумма
+        td.text-right = total(@cart_hash)
+      tr
+        td.text-right colspan='3' Стоимость доставки
+        td.text-right = @order.delivery_cost
+      tr
+        td.text-right colspan='3' Итого
+        td.text-right.stat = @order[:cost].to_i + @order.delivery_cost.to_i

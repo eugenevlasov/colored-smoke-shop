@@ -1,0 +1,146 @@
+= javascript_include_tag 'base_goods_descriptions.js'
+= content_for :title, 'Цветной дым ' + @base_goods_description.name
+
+.row
+  .medium-12.columns
+    h1.text-center = @base_goods_description.name
+    .row
+      .medium-7.medium-centered.small-12.columns
+        .row.small-up-2.medium-up-4.text-center
+          .column.column-block
+            | Цена
+            .stat
+              => @base_goods_description.cost
+              |&#x20bd;
+          .column.column-block
+            | Всего цветов
+            .stat = @base_goods_description.total_colors
+          .column.column-block
+            | Время горения
+            .stat
+              => @base_goods_description.burning_time
+              |с
+          .column.column-block
+            | Видео
+            .stat: a href='#' data-open='youtube' = fa_icon 'youtube'
+
+      .medium-12.columns.text-center
+        p.lead = @base_goods_description.description
+
+    .row
+      .medium-6.columns = image_tag("#{@base_goods_description.id}.jpg")
+      .medium-3.columns.medium-push-3
+        ul.no-bullet
+          li
+            'Страна производства:
+            strong = @base_goods_description.country
+          li
+            'В руке:
+            strong = @base_goods_description.in_hand
+
+          - if @base_goods_description.base.present?
+            li
+              'Основа:
+              strong = @base_goods_description.base
+          li
+            'Высота:
+            strong #{@base_goods_description.height} см
+          li
+            'Диаметр:
+            strong #{@base_goods_description.diameter} см
+      .medium-3.columns.medium-pull-3
+        ul.no-bullet
+          - @goods.each do |g|
+            li.clearfix
+              .float-left
+                svg.g-color> xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" width="14px" height="14px"
+                  defs
+                    style .cls-#{g.id}{fill:#{g[:color_code]};}
+                  circle class="cls-#{g.id}" cx="9" cy="9" r="9"
+                = g[:color]
+
+              .float-right.button-group.tiny data-id=g.id
+                - if g.available > 0
+                  = link_to remove_from_cart_path(g), method: :put, remote: true, class: 'remove button hide', :'data-id' => g.id
+                    = fa_icon 'minus'
+                  strong.button.hollow.tiny.quantity.hide<> data-id=g.id = @cart_hash[g.id.to_s]
+                  = link_to 'В корзину', add_to_cart_path(g), method: :put, remote: true, class: 'button add', :'data-id' => g.id
+                  = link_to 'Заказать', cart_path, class: 'checkout button hollow hide', :'data-id' => g.id
+
+                  - if @cart_hash[g.id.to_s] && @cart_hash[g.id.to_s] > 0
+                    javascript:
+                      $(document).ready(function() {
+                        $('[data-id="#{g.id}"] .add').html('<i class="fa fa-plus"></i>');
+                        $('[data-id="#{g.id}"] .checkout').removeClass('hide');
+                        $('[data-id="#{g.id}"] .quantity').removeClass('hide');
+                        $('[data-id="#{g.id}"] .remove').removeClass('hide');
+                      });
+
+                - else
+                  .button.hollow.disabled.tiny.alert Нет в наличии
+
+
+    .row.column
+      - unless @images.empty?
+        .magnific
+          - @images.each do |img|
+            => link_to img.image.url(:large), class: 'thumbnail'
+              = image_tag img.image.url(:small)
+
+.reveal.large#youtube(data-reveal)
+  h4 = @base_goods_description.name
+  .responsive-embed.widescreen.video-container.flex-video
+    #player
+  button.close-button type='button' data-close='' &times;
+
+javascript:
+  var player;
+
+  $(window).on(
+    'open.zf.reveal', function () {
+      player = new YT.Player('player', {
+                              height: '100%',
+                              width: '100%',
+                              videoId: "#{@base_goods_description.youtube_link}",
+                              events: {
+                                'onReady': onPlayerReady,
+                                'onStateChange': onPlayerStateChange
+                              }
+                            });
+
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          done = true;
+        }
+      }
+
+      function stopVideo() {
+        player.stopVideo();
+      }
+    }
+  );
+
+  $(window).on(
+    'closed.zf.reveal', function () {
+      player.stopVideo();
+      $('#youtube .flex-video #player').remove();
+      $('#youtube .flex-video').append('<div id="player" />');
+    }
+  );
+
+  $(document).ready( function () {
+    $('.magnific').magnificPopup ( {
+    delegate: 'a', // child items selector, by clicking on it popup will open
+    type: 'image',
+    gallery: {
+      enabled: true
+    }
+    // other options
+    } );
+  } );
+

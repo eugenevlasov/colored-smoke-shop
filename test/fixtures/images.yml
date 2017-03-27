@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  base_good_description: one
+  alt: MyText
+  title: MyText
+
+two:
+  base_good_description: two
+  alt: MyText
+  title: MyText

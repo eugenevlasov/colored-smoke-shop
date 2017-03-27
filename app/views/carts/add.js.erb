@@ -1,0 +1,10 @@
+$('.cart-counter').text('<%= cart_counter %>');
+$('.cart-total').text('<%= cart_total %>');
+
+$('[data-id="<%= @id %>"] .add').html('<i class="fa fa-plus"></i>');;
+
+$('[data-id="<%= @id %>"] .quantity').text('<%= @quantity %>');
+$('[data-id="<%= @id %>"] .quantity').removeClass('hide');
+
+$('[data-id="<%= @id %>"] .remove').removeClass('hide');
+$('[data-id="<%= @id %>"] .checkout').removeClass('hide');

@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyText
+  description: MyText
+  country: MyText
+  in_hand: false
+  base: MyText
+  burning_time: 1
+  height: 1
+  depth: 1
+  diameter: 1
+
+two:
+  name: MyText
+  description: MyText
+  country: MyText
+  in_hand: false
+  base: MyText
+  burning_time: 1
+  height: 1
+  depth: 1
+  diameter: 1

@@ -1,0 +1,9 @@
+.row.column.clearfix
+  h1
+    small.subheader Редактирование товара
+    =< @good.base_goods_description.name
+    =< @good.color
+
+  == render 'form'
+
+  .float-right  = link_to (fa_icon 'remove', text: 'Удалить'), @good, data: { confirm: 'Вы уверены?' }, method: :delete, class: 'button alert'

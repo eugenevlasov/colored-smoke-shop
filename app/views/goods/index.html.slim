@@ -1,0 +1,47 @@
+= javascript_include_tag 'datatables.js'
+
+.row.column
+  br
+  = link_to (fa_icon 'plus', text: 'Добавить товар'), new_good_path, class: 'button'
+
+  table#goods
+    thead
+      tr
+        th Название
+        th На складе
+        th Резерв
+
+    tbody
+      - @goods.each do |good|
+        tr data-href=edit_good_path(good)
+          td = good.base_goods_description.name + ' ' + good.color
+          td.text-right = good.quantity
+          td.text-right = good.reserved
+
+javascript:
+  $(document).ready(function() {
+    $('#goods').DataTable( {
+      "language": {
+        "processing": "Подождите...",
+        "search": "Поиск:",
+        "lengthMenu": "Показать _MENU_ записей",
+        "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+        "infoEmpty": "Записи с 0 по 0 из 0 записей",
+        "infoFiltered": "(отфильтровано из _MAX_ записей)",
+        "infoPostFix": "",
+        "loadingRecords": "Загрузка записей...",
+        "zeroRecords": "Записи отсутствуют.",
+        "emptyTable": "В таблице отсутствуют данные",
+        "paginate": {
+          "first": "Первая",
+          "previous": "Предыдущая",
+          "next": "Следующая",
+          "last": "Последняя"
+        },
+        "aria": {
+          "sortAscending": ": активировать для сортировки столбца по возрастанию",
+          "sortDescending": ": активировать для сортировки столбца по убыванию"
+        }
+      },
+    } );
+  } );

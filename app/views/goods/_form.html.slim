@@ -1,0 +1,33 @@
+= form_for @good do |f|
+  - if @good.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@good.errors.count, "error")} prohibited this good from being saved:"
+      ul
+        - @good.errors.full_messages.each do |message|
+          li = message
+  .field
+    = f.label :base_goods_description_id, 'Базовый товар'
+    = select_tag(:base_goods_description_id, options_for_select(@base_goods_descriptions_array))
+
+  .field
+    = f.label :color, 'Цвет (название)'
+    = f.text_field :color
+
+  .field
+    = f.label :color_code, 'Цвет (код HTML)'
+    = f.text_field :color_code
+
+  .field
+    = f.label :quantity, 'Количество на складе'
+    = f.number_field :quantity
+
+  = f.submit 'Сохранить', class: 'button success expanded'
+
+.float-left = link_to (fa_icon 'arrow-left', text: 'Назад'), goods_path, class: 'button hollow secondary'
+
+javascript:
+  $(document).ready(function() {
+    $('input[type=text]#good_color_code').minicolors( {
+      theme: 'bootstrap'
+    } );
+  } );

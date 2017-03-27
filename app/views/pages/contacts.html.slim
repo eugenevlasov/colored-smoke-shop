@@ -1,0 +1,20 @@
+.row
+  .medium-12.columns
+    h1.text-center Контакты
+.row
+  .medium-4.columns.text-center
+    h2
+      = fa_icon 'phone'
+      . Телефон
+      small = link_to Rails.application.config.site_phone_formatted, "tel:#{Rails.application.config.site_phone}"
+  .medium-4.columns.text-center
+    h2
+      = fa_icon 'envelope'
+      . Электронная почта
+      small = link_to Rails.application.config.site_email, "mailto:#{Rails.application.config.site_email}"
+
+  .medium-4.columns.text-center
+    h2
+      = fa_icon 'vk'
+      . Вконтакте
+      small = link_to "vk.com/#{Rails.application.config.site_vk}", "https://vk.com/#{Rails.application.config.site_vk}"

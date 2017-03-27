@@ -1,0 +1,117 @@
+doctype html
+html lang='ru'
+  head
+    meta charset='utf-8'
+    meta name='viewport' content='width=device-width, initial-scale=1.0'
+
+    title == content_for?(:title) ? yield(:title) : 'Цветной дым'
+
+    link rel='apple-touch-icon' sizes='57x57' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-57x57.png"
+    link rel='apple-touch-icon' sizes='60x60' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-60x60.png"
+    link rel='apple-touch-icon' sizes='72x72' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-72x72.png"
+    link rel='apple-touch-icon' sizes='76x76' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-76x76.png"
+    link rel='apple-touch-icon' sizes='114x114' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-114x114.png"
+    link rel='apple-touch-icon' sizes='120x120' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-120x120.png"
+    link rel='apple-touch-icon' sizes='144x144' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-144x144.png"
+    link rel='apple-touch-icon' sizes='152x152' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-152x152.png"
+    link rel='apple-touch-icon' sizes='180x180' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-180x180.png"
+    link rel='icon' type='image/png' href="#{Rails.application.config.assets.prefix}/favicon-32x32.png" sizes='32x32'
+    link rel='icon' type='image/png' href="#{Rails.application.config.assets.prefix}/favicon-194x194.png" sizes='194x194'
+    link rel='icon' type='image/png' href="#{Rails.application.config.assets.prefix}/android-chrome-192x192.png" sizes='92x192'
+    link rel='icon' type='image/png' href="#{Rails.application.config.assets.prefix}/favicon-16x16.png" sizes='16x16'
+    link rel='manifest' href="#{Rails.application.config.assets.prefix}/manifest.json"
+    link rel='mask-icon' href="#{Rails.application.config.assets.prefix}/safari-pinned-tab.svg" color='#d63131'
+    meta name='msapplication-TileColor' content='#b91d47'
+    meta name='msapplication-TileImage' content="#{Rails.application.config.assets.prefix}/mstile-144x144.png"
+    meta name='theme-color' content='#ffffff'
+
+    = favicon_link_tag
+    = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Roboto:400,700|Ubuntu:400,700&amp;subset=cyrillic'
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
+    = javascript_include_tag 'admin.js' if admin_signed_in?
+    = javascript_include_tag 'https://www.youtube.com/player_api' if controller.controller_name == 'base_goods_descriptions'
+    = csrf_meta_tag
+
+  body
+    .page-wrap
+      .title-bar data-responsive-toggle='main-nav' data-hide-for='large'
+        button.menu-icon. type='button' data-toggle=''
+        .title-bar-title Меню
+
+      nav.top-bar#main-nav
+        .top-bar-left
+          ul.menu.vertical.large-horizontal.dropdown(data-dropdown-menu)
+            li.show-for-large
+              = link_to '/'
+                = fa_icon 'fire', text: 'Цветной дым'
+
+            li
+              = link_to root_path
+                = fa_icon 'home'
+                span.hide-for-large< Главная
+
+            li class = is_active(delivery_path)
+              a href=delivery_path = fa_icon 'truck', text: 'Доставка'
+
+            li class = is_active(payment_path)
+              a href=payment_path = fa_icon 'credit-card', text: 'Оплата'
+
+            li class = is_active(contacts_path)
+              a href=contacts_path = fa_icon 'envelope', text: 'Контакты'
+
+        .top-bar-right
+          ul.menu.vertical.large-horizontal
+            - if admin_signed_in?
+              - if controller_name == 'base_goods_descriptions'
+                - case action_name
+                - when 'edit'
+                  li = link_to (fa_icon 'eye', text: 'Просмотр'), catalog_path(@base_goods_description)
+
+                - when 'show'
+                  li = link_to (fa_icon 'pencil', text: 'Редактировать'), edit_catalog_path(@base_goods_description)
+              li class = is_active(orders_path)
+                = link_to (fa_icon 'list-alt', text: 'Заказы'), orders_path
+              li class = is_active(goods_path)
+                = link_to (fa_icon 'inbox', text: 'Склад'),  goods_path
+              li = link_to (fa_icon 'sign-out', text: 'Выход'),destroy_admin_session_path, method: :delete
+
+            - else
+              li class = is_active(cart_path)
+                = link_to cart_path
+                  = fa_icon 'shopping-cart', text: 'Корзина'
+                  sup<
+                    strong.cart-counter = cart_counter
+              li = link_to (fa_icon 'phone', text: Rails.application.config.site_phone_formatted), "tel:#{Rails.application.config.site_phone}"
+
+      main
+        .row.column
+          - if flash
+            #flash
+              - flash.each do |key, value|
+                - if value.length > 0
+                  .callout class="#{key=='notice' ? 'success' : key}" data-closable=''
+                    label style='margin-right:30px;' = value
+                    button.close-button type='button' data-close=''
+                      span &times
+
+        == yield
+
+    footer
+      .row
+        .medium-4.columns
+          .copyright &copy; 2015 &mdash; #{Time.current.year} Все права защищены.
+        .medium-4.columns
+          .contacts
+            = link_to (fa_icon 'vk 3x'), "https://vk.com/#{Rails.application.config.site_vk}"
+            |&ensp;
+            = link_to (fa_icon 'instagram 3x'), "https://www.instagram.com/#{Rails.application.config.site_instagram}"
+            br
+            = link_to (fa_icon 'envelope', text: Rails.application.config.site_email), "mailto:#{Rails.application.config.site_email}"
+
+        .medium-4.columns
+          .made-in
+            'Разработка сайта:
+            strong = link_to (fa_icon 'rocket', text: 'Kossoff.ru'), '//kossoff.ru'
+          br
+          .text-right = link_to (fa_icon 'key'), new_admin_session_path unless admin_signed_in?

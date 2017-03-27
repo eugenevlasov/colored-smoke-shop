@@ -1,0 +1,195 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require font-awesome
+ *= require dataTables/jquery.dataTables.foundation
+ *= require jquery.minicolors
+ *= require magnific-popup
+ */
+
+@import 'foundation_and_overrides';
+
+.top-bar {
+  font-size: rem-calc(18);
+
+  .menu {
+    a,
+    .menu-text {
+      color: $white;
+    }
+  }
+}
+
+footer {
+  color: lighten($black, 50%);
+  border-top: 1px dotted lighten($black, 75%);
+  background-color: lighten($black, 84%);
+  padding: rem-calc(48) 0;
+
+  @include breakpoint(small only) {
+    padding: rem-calc(16) 0;
+  }
+
+  a {
+    color: lighten($black, 40%);
+  }
+
+  .contacts {
+    text-align: center;
+  }
+
+  .made-in {
+    text-align: right;
+  }
+
+  .copyright,
+  .contacts,
+  .made-in {
+    @include breakpoint(medium down){
+      text-align: center;
+    }
+  }
+}
+
+// <-- pulse
+#scroll-down {
+  margin-top: 2rem;
+
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 1s;
+  -moz-transition-property: -moz-transform;
+  -moz-transition-duration: 1s;
+
+  &:hover {
+    cursor: pointer;
+
+    -webkit-animation-name: pulse;
+    -moz-animation-name: pulse;
+    -webkit-animation-duration: 1.5s;
+    -moz-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+  }
+
+  @include breakpoint(small only) {
+    margin-top: .5rem;
+  }
+}
+
+@-webkit-keyframes pulse {
+  from {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  50% {
+    -webkit-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@-moz-keyframes pulse {
+  from {
+    -moz-transform: scale(1);
+    transform: scale(1);
+  }
+
+  50% {
+    -moz-transform: scale(1.2);
+    transform: scale(1.2);
+  }
+
+  100% {
+    -moz-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+// --> pulse
+
+.cover {
+  background: rgba(0,0,0,.4);
+  color: white;
+  text-shadow: 0 0 15px white;
+
+  video,
+  #mobile-cover {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1000;
+    transform: translateX(-50%) translateY(-50%);
+    background: url('smoke.jpg') no-repeat;
+    background-size: cover;
+    transition: 1s opacity;
+  }
+
+  h1 {
+    font-size: 5rem;
+
+    @include breakpoint(small only) {
+      font-size: 2rem;
+    }
+  }
+
+  .puk {
+    width: 220px;
+
+    @include breakpoint(small only) {
+      padding-top: 1rem;
+      width: 64px;
+    }
+  }
+}
+
+.cover-main {
+  background: rgba(0,0,0,.4);
+  padding-top: 1rem;
+}
+
+table#orders,
+table#goods {
+  tbody {
+    tr {
+      &:hover {
+        background: $light-gray;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// fix for jQuery DataTables pagination
+.pagination .current {
+  padding: 0;
+
+  a {
+    color: white;
+
+    &:hover {
+      color: $body-font-color;
+    }
+  }
+}

@@ -1,0 +1,57 @@
+.row
+  .medium-6.columns.text-center
+    h2 = fa_icon 'shopping-cart', text: 'Корзина'
+
+    - if @goods.empty?
+      .callout.alert В корзине пусто =(
+
+    - else
+      ul.no-bullet
+        - @goods.each do |g|
+          li.clearfix
+            .float-left
+              = link_to catalog_path(g.base_goods_description)
+                => g.base_goods_description[:name]
+                => g[:color]
+
+            - if g.quantity > 0
+              .button-group.tiny.float-right data-id=g.id
+                = link_to remove_from_cart_path(g), method: :put, remote: true, class: 'button'
+                  = fa_icon 'minus'
+
+                strong.button.hollow.tiny.quantity<> = @cart_hash[g.id.to_s]
+
+                = link_to add_to_cart_path(g), method: :put, remote: true, class: 'button'
+                  = fa_icon 'plus'
+
+        p.stat.text-center
+          'Итого:
+          span.cart-total => cart_total
+          |&#x20bd;
+          .small без учета стоимости доставки
+
+  .medium-6.columns
+    h2.text-center = fa_icon 'check', text: 'Оформление заказа'
+
+    = form_for @order do |f|
+      label
+        |Электронная почта
+        = f.email_field :email, :required => true, placeholder: 'mail@example.com'
+      label
+        |Телефон
+        = f.telephone_field :phone, :required => true, placeholder: '+7 (495) 123-45-67'
+      label
+        | Имя получателя
+        = f.text_field :person, :required => true, placeholder: 'Фамилию можно не указывать'
+
+      fieldset
+        legend Доставка
+        - @delivery.each do |d|
+          . data-delivery-id=d.id data-delivery-cost=d.cost.to_i
+            = f.radio_button :delivery_option_id, d.id, :required => true
+            = f.label :delivery_option_id, d.description, :value => d.id
+      label
+        |Адрес доставки
+        = f.text_area :address, rows: 3
+
+      = f.submit 'Оформить заказ', class: 'button large expanded'

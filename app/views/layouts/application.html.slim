@@ -6,23 +6,23 @@ html lang='ru'
 
     title == content_for?(:title) ? yield(:title) : 'Цветной дым'
 
-    link rel='apple-touch-icon' sizes='57x57' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-57x57.png"
-    link rel='apple-touch-icon' sizes='60x60' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-60x60.png"
-    link rel='apple-touch-icon' sizes='72x72' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-72x72.png"
-    link rel='apple-touch-icon' sizes='76x76' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-76x76.png"
-    link rel='apple-touch-icon' sizes='114x114' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-114x114.png"
-    link rel='apple-touch-icon' sizes='120x120' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-120x120.png"
-    link rel='apple-touch-icon' sizes='144x144' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-144x144.png"
-    link rel='apple-touch-icon' sizes='152x152' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-152x152.png"
-    link rel='apple-touch-icon' sizes='180x180' href="#{Rails.application.config.assets.prefix}/apple-touch-icon-180x180.png"
-    link rel='icon' type='image/png' href="#{Rails.application.config.assets.prefix}/favicon-32x32.png" sizes='32x32'
-    link rel='icon' type='image/png' href="#{Rails.application.config.assets.prefix}/favicon-194x194.png" sizes='194x194'
-    link rel='icon' type='image/png' href="#{Rails.application.config.assets.prefix}/android-chrome-192x192.png" sizes='92x192'
-    link rel='icon' type='image/png' href="#{Rails.application.config.assets.prefix}/favicon-16x16.png" sizes='16x16'
-    link rel='manifest' href="#{Rails.application.config.assets.prefix}/manifest.json"
-    link rel='mask-icon' href="#{Rails.application.config.assets.prefix}/safari-pinned-tab.svg" color='#d63131'
+    link rel='apple-touch-icon' sizes='57x57' href='/apple-touch-icon-57x57.png'
+    link rel='apple-touch-icon' sizes='60x60' href='/apple-touch-icon-60x60.png'
+    link rel='apple-touch-icon' sizes='72x72' href='/apple-touch-icon-72x72.png'
+    link rel='apple-touch-icon' sizes='76x76' href='/apple-touch-icon-76x76.png'
+    link rel='apple-touch-icon' sizes='114x114' href='/apple-touch-icon-114x114.png'
+    link rel='apple-touch-icon' sizes='120x120' href='/apple-touch-icon-120x120.png'
+    link rel='apple-touch-icon' sizes='144x144' href='/apple-touch-icon-144x144.png'
+    link rel='apple-touch-icon' sizes='152x152' href='/apple-touch-icon-152x152.png'
+    link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon-180x180.png'
+    link rel='icon' type='image/png' href='/favicon-32x32.png' sizes='32x32'
+    link rel='icon' type='image/png' href='/favicon-194x194.png' sizes='194x194'
+    link rel='icon' type='image/png' href='/android-chrome-192x192.png' sizes='92x192'
+    link rel='icon' type='image/png' href='/favicon-16x16.png' sizes='16x16'
+    link rel='manifest' href='/manifest.json'
+    link rel='mask-icon' href='/safari-pinned-tab.svg' color='#d63131'
     meta name='msapplication-TileColor' content='#b91d47'
-    meta name='msapplication-TileImage' content="#{Rails.application.config.assets.prefix}/mstile-144x144.png"
+    meta name='msapplication-TileImage' content='/mstile-144x144.png'
     meta name='theme-color' content='#ffffff'
 
     = favicon_link_tag
@@ -30,13 +30,13 @@ html lang='ru'
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
     = javascript_include_tag 'admin.js' if admin_signed_in?
-    = javascript_include_tag 'https://www.youtube.com/player_api' if controller.controller_name == 'base_goods_descriptions'
+    = javascript_include_tag 'https://www.youtube.com/player_api' if controller.controller_name == 'base_goods_descriptions' && controller.action_name == 'show'
     = csrf_meta_tag
 
   body
     .page-wrap
       .title-bar data-responsive-toggle='main-nav' data-hide-for='large'
-        button.menu-icon. type='button' data-toggle=''
+        button.menu-icon type='button' data-toggle=''
         .title-bar-title Меню
 
       nav.top-bar#main-nav
